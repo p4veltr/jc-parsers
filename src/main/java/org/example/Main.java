@@ -90,22 +90,12 @@ public class Main {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i); // <employee>
             if (Node.ELEMENT_NODE == node.getNodeType()) {
-                long id = 0; String firstName = ""; String lastName =""; String country = ""; int age = 0;
-                NodeList nodeList1 = node.getChildNodes();
-                for (int i1 = 0; i1 < nodeList1.getLength(); i1++) {
-                    Node node1 = nodeList1.item(i1); // element
-                    if (Node.ELEMENT_NODE == node1.getNodeType()) {
-                        String value = node1.getTextContent();
-                        switch (node1.getNodeName()) {
-                            case "id" -> id = Long.parseLong(value);
-                            case "firstName" -> firstName = value;
-                            case "lastName" -> lastName = value;
-                            case "country" -> country = value;
-                            case "age" -> age = Integer.parseInt(value);
-                        }
-                    }
-                }
-                list.add(new Employee(id, firstName, lastName, country, age));
+                Element element = (Element) node;
+                list.add(new Employee(Long.parseLong(element.getElementsByTagName("id").item(0).getTextContent()),
+                        element.getElementsByTagName("firstName").item(0).getTextContent(),
+                        element.getElementsByTagName("lastName").item(0).getTextContent(),
+                        element.getElementsByTagName("country").item(0).getTextContent(),
+                        Integer.parseInt(element.getElementsByTagName("age").item(0).getTextContent())));
             }
         }
         return list;
